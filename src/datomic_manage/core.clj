@@ -88,7 +88,7 @@
   [migration-name]
   {:txes [(-> migration-name
               migration-path
-              io/resource
+              io/file
               slurp
               read-string
               eval)]})
@@ -102,7 +102,7 @@
 
 (defn migrate
   [uri migrations & {:keys [path]}]
-  (binding [*migrations-path* (or path "db/migrations/")]
+  (binding [*migrations-path* (or path "resources/db/schema/")]
     (create uri)
     (apply ensure-schemas (into [(d/connect uri)
                                  :dosierer/schema
