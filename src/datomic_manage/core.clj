@@ -1,4 +1,4 @@
-(ns datomic-manage.core)
+(ns datomic-manage.core
   (:require [datomic.api :as d]
             [clojure.java.io :as io])
   (:import java.io.File))
