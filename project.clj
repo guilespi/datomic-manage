@@ -1,4 +1,4 @@
-(defproject com.intception/datomic-manage "0.1.0"
+(defproject com.intception/datomic-manage "0.1.1"
   :description "Datomic migrations manager"
   :url "https://github.com/guilespi/datomic-manage"
   :license {:name "Eclipse Public License"

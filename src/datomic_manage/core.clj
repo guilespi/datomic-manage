@@ -82,7 +82,9 @@
 
 (defn migration-path
   [migration-name]
-  (str *migrations-path* (name migration-name) ".edn"))
+  (if-let [ns (namespace migration-name)]
+    (str *migrations-path* ns "/" (name migration-name) ".edn")
+    (str *migrations-path* (name migration-name) ".edn")))
 
 (defn migration-data
   [migration-name]
