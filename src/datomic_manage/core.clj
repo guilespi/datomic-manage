@@ -4,6 +4,7 @@
   (:import java.io.File))
 
 (def ^:dynamic *migrations-path*)
+(def ^:dynamic *resource-based*)
 
 (defn create
   [uri]
@@ -90,7 +91,9 @@
   [migration-name]
   {:txes [(-> migration-name
               migration-path
-              io/file
+              (#(if *resource-based*
+                  (io/resource %)
+                  (io/file %)))
               slurp
               read-string
               eval)]})
@@ -103,8 +106,9 @@
           migration-names))
 
 (defn migrate
-  [uri migrations & {:keys [path]}]
-  (binding [*migrations-path* (or path "resources/db/schema/")]
+  [uri migrations & {:keys [path resource-based]}]
+  (binding [*migrations-path* (or path "db/schema/")
+            *resource-based* resource-based]
     (create uri)
     (apply ensure-schemas (into [(d/connect uri)
                                  :dosierer/schema
